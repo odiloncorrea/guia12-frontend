@@ -1,0 +1,19 @@
+.fundoInput{
+    background-color: gainsboro;
+}
+
+.col-produto {
+    width: 40%;
+}
+
+.col-valor {
+    width: 20%;
+}
+
+.col-quantidade {
+    width: 20%;
+}
+
+.col-botao {
+    width: 20%;
+}

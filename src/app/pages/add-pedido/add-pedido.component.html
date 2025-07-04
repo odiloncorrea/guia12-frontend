@@ -1,0 +1,84 @@
+<div class="container mt-4">
+    <h2 class="mb-4 border-bottom border-3 border-danger">Pedido</h2>
+
+    <form [formGroup]="formGroupItem" (ngSubmit)="adicionarItem()">
+        <div class="row">
+            <div class="col-md-6 mb-3">                
+                <label for="produto" class="form-label">Produtos</label>
+                <select class="form-select" aria-label="Default select example" formControlName="produto">
+                    <option [ngValue]="null" disabled selected>Selecione um produto</option>
+                    <option *ngFor="let produto of produtos" [ngValue]="produto">{{ produto.descricao }}</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="valor" class="form-label">Valor</label>
+                <input id="valor" type="text" class="form-control fundoInput" formControlName="valor" mask="separator.2"
+                    prefix="R$ " readonly>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="quantidade" class="form-label">Quantidade</label>
+                <input id="quantidade" type="text" class="form-control" formControlName="quantidade" mask="separator">
+            </div>
+
+        </div>
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success" [disabled]="formGroupItem.invalid">
+                +
+            </button>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-hover align-middle mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th class="col-produto">Produto</th>
+                <th class="col-valor">Valor</th>
+                <th class="col-quantidade">Quantidade</th>
+                <th class="text-center"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of itens">
+                <td>{{ item.produto?.descricao }}</td>
+                <td>{{ item.valor | currency:'BRL':'symbol':'1.2-2' }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-danger" (click)="excluirItem(item.produto?.id)">-</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form [formGroup]="formGroupPedido" (ngSubmit)="salvarPedido()">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="usuario" class="form-label">Usuário</label>
+                <select class="form-select" aria-label="Default select example" formControlName="usuario">
+                    <option [ngValue]="null" disabled selected>Selecione um usuário</option>
+                    <option *ngFor="let usuario of usuarios" [ngValue]="usuario">{{ usuario.nome }}</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="data" class="form-label">Data</label>
+                <input id="data" type="date" class="form-control" formControlName="data">
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label for="valor" class="form-label">Valor</label>
+                <input id="valor" type="text" class="form-control fundoInput" formControlName="valor" mask="separator.2"
+                    prefix="R$ " readonly>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <a routerLink="/pedidos" class="btn btn-secondary">
+                Cancelar
+            </a>
+            <button type="submit" class="btn btn-success" [disabled]="formGroupPedido.invalid || itens.length === 0">
+                Salvar
+            </button>
+        </div>
+    </form>
+
+</div>

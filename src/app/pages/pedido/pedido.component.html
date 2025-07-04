@@ -1,0 +1,29 @@
+<div class="container mt-4">  
+  <h2 class="mb-4 border-bottom border-3 border-danger">Pedidos</h2>
+
+  <div class="d-flex justify-content-end mb-2">
+    <a routerLink="/add-pedido" routerLinkActive="active" class="btn btn-primary">Cadastrar</a>
+  </div>
+
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th class="col-data">Data</th>
+        <th class="col-valor">Valor</th>
+        <th class="col-usuario">Usuário</th>
+        <th class="col-botao text-center">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let objeto of lista">
+        <td>{{ objeto.data  | date:'dd/MM/yyyy'}}</td>
+        <td>{{ objeto.valor | currency:'BRL':'symbol':'1.2-2' }}</td>
+        <td>{{ objeto.usuario?.nome }}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-danger " (click)="excluir(objeto.id!)">Excluir</button>
+          <a [routerLink]="['/add-pedido', objeto.id]" routerLinkActive="active" class="btn btn-sm btn-warning ms-2"> Editar </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

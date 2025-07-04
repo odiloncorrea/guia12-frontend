@@ -1,0 +1,57 @@
+<div class="container mt-4">
+  <h2 class="mb-4 border-bottom border-3 border-danger">Tipos</h2>
+
+  <div class="d-flex justify-content-end mb-2">
+    <button type="button" class="btn btn-primary" (click)="cadastrar()"> Cadastrar </button>
+  </div>
+
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th class="col-descricao">Descrição</th>
+        <th class="text-center col-acoes">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let objeto of lista">
+        <td>{{ objeto.descricao }}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-warning me-2" (click)="editar(objeto.id)">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="excluir(objeto.id)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- MODAL -->
+<div class="modal fade show" tabindex="-1" [ngClass]="{ 'd-block': modalAberto }">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Cadastrar Tipo</h5>
+        <button type="button" class="btn-close" (click)="fecharModal()"></button>
+      </div>
+
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+
+          <input type="hidden" formControlName="id">
+
+          <div class="mb-3">
+            <label for="descricao" class="form-label">Descrição</label>
+            <input id="descricao" class="form-control" formControlName="descricao">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+          <button type="submit" class="btn btn-success" [disabled]="formGroup.invalid">Salvar</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+</div>

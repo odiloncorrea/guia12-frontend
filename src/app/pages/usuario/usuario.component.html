@@ -1,0 +1,24 @@
+<div class="container mt-4">  
+  <h2 class="mb-4 border-bottom border-3 border-danger">Usuários</h2>
+
+  <div class="d-flex justify-content-end mb-2">
+    <a routerLink="/add-usuario" routerLinkActive="active" class="btn btn-primary">Cadastrar</a>
+  </div>
+
+  <table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark">
+      <tr>
+        <th class="col-nome">Nome</th>
+        <th class="col-login">Login</th>
+        <th class="col-nivel">Nível</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let objeto of lista">
+        <td>{{ objeto.nome }}</td>
+        <td>{{ objeto.login }}</td>
+        <td>{{ objeto.nivelAcesso }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
