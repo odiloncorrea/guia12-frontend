@@ -8,6 +8,7 @@
   <table class="table table-bordered table-hover align-middle">
     <thead class="table-dark">
       <tr>
+        <th class="col-imagem"></th>
         <th class="col-nome">Nome</th>
         <th class="col-login">Login</th>
         <th class="col-nivel">Nível</th>
@@ -15,6 +16,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let objeto of lista">
+        <td> <img [src]="objeto.urlImagem || 'assets/usuario-padrao.png'" class="img-usuario"> </td>
         <td>{{ objeto.nome }}</td>
         <td>{{ objeto.login }}</td>
         <td>{{ objeto.nivelAcesso }}</td>

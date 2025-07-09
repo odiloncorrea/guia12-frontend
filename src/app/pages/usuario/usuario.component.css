@@ -1,5 +1,9 @@
+.col-imagem {
+    width: 5%;
+}
+
 .col-nome {
-    width: 50%;
+    width: 45%;
 }
 
 .col-login {
@@ -8,4 +12,10 @@
 
 .col-nivel {
     width: 25%;
+}
+
+.img-usuario{
+    width: 40px; 
+    height: 40px; 
+    object-fit: cover;
 }

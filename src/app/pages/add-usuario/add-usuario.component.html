@@ -4,6 +4,13 @@
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
 
         <div class="row">
+            <div class="col-md-12 text-center">
+                <img [src]="imagemUsuario || 'assets/usuario-padrao.png'" class="img-usuario" (click)="abrirInputImagem()">  
+                <input type="file" id="inputImagem" hidden class="form-control" (change)="carregarImagem($event)">
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-12 mb-3">
                 <label for="nome" class="form-label">Nome</label>
                 <input id="nome" type="text" class="form-control" formControlName="nome">
