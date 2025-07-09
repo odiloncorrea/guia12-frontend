@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
 };
 
 export const appSettings = {
-  apiBaseUrl: 'https://ds-guia12.onrender.com:8080'
+  apiBaseUrl: 'https://ds-guia12.onrender.com'
 };
 
 
