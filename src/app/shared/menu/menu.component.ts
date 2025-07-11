@@ -1,7 +1,7 @@
-import { Component, OnDestroy } from '@angular/core';
-import { RouterModule, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs'; // para gerenciar a inscrição
+import { Subscription } from 'rxjs';
 import { LoginService } from '../../services/login.service';
 
 @Component({
@@ -11,9 +11,7 @@ import { LoginService } from '../../services/login.service';
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'] // corrigido styleUrls no plural
 })
-export class MenuComponent implements OnDestroy {
-
-  nivel = 'NIVEL0';
+export class MenuComponent {
 
   menu = [
     { descricao: 'Tipos', rota: '/tipos', niveis: ['NIVEL1', 'NIVEL2', 'NIVEL3'] },
@@ -22,28 +20,26 @@ export class MenuComponent implements OnDestroy {
     { descricao: 'Pedidos', rota: '/pedidos', niveis: ['NIVEL2', 'NIVEL3'] },
   ];
 
+  private subscription!: Subscription;
   menuUsuario: { descricao: string, rota: string, niveis: string[] }[] = [];
+  nivelUsuario!: string;
   nomeUsuario!: string;
-
-  private loginSubscription?: Subscription;
 
   constructor(private loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {
-    // Inicializa o menu na primeira vez
-    this.atualizarMenu();
-
-    // Se inscreve para atualizar o menu quando login ocorrer
-    this.loginSubscription = this.loginService.loginObservable$.subscribe(() => {
-      this.atualizarMenu();
+    // Faz a inscrição para atualizar o menu sempre que a rota mudar
+    this.subscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.atualizarMenu();
+      }
     });
 
-    this.nomeUsuario = "Odilon";
+    this.atualizarMenu(); // atualiza ao carregar
   }
 
   ngOnDestroy(): void {
-    // Cancela a inscrição para evitar vazamentos de memória
-    this.loginSubscription?.unsubscribe();
+    this.subscription.unsubscribe(); // encerra inscrição
   }
 
   private atualizarMenu(): void {
@@ -51,24 +47,19 @@ export class MenuComponent implements OnDestroy {
 
     if (dadosToken && dadosToken.roles) {
       // Remove "ROLE_" do início do papel do usuário
-      this.nivel = dadosToken.roles.replace(/^ROLE_/, '');
+      this.nivelUsuario = dadosToken.roles.replace(/^ROLE_/, '');
+      this.nomeUsuario = dadosToken.sub;
+      // Filtra o menu para montar menuUsuario com os itens permitidos
+      this.menuUsuario = this.menu.filter(item => item.niveis.includes(this.nivelUsuario));
     } else {
-      console.warn('Não foi possível determinar o nível do usuário a partir do token.');
-      this.nivel = 'NIVEL0'; // força menu vazio em caso de erro
+      this.nivelUsuario = '';
+      this.nomeUsuario = '';
+      this.menuUsuario = [];
     }
-
-    // Filtra o menu para montar menuUsuario com os itens permitidos
-    this.menuUsuario = this.menu.filter(item => item.niveis.includes(this.nivel));
-
   }
 
-  sair(event: Event): void {
-    event.preventDefault(); // evita que o link faça o reload da página
-
-    this.menuUsuario = [];
-
+  sair(): void {
     this.loginService.limparToken();
-
-    this.router.navigate(['/']);
+    this.atualizarMenu();    
   }
 }

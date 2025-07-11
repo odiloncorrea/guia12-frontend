@@ -37,9 +37,6 @@ export class LoginComponent {
         next: (resposta) => {
           this.token = resposta;
           this.loginService.salvarToken(this.token.accessToken);
-
-          // Notifica que o login foi realizado com sucesso
-          this.loginService.notificarLogin();
                     
           this.router.navigate(['/home']);
         },

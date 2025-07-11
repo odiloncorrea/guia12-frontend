@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable} from 'rxjs';
 import { appSettings } from '../app.config';
 import { Token } from '../models/token';
 import { jwtDecode } from 'jwt-decode';
@@ -11,10 +11,6 @@ import { jwtDecode } from 'jwt-decode';
 export class LoginService {
 
   private apiUrl = `${appSettings.apiBaseUrl}/auth`;
-
-  // Subject para emitir evento de login
-  private loginSubject = new BehaviorSubject<void>(undefined);
-  loginObservable$ = this.loginSubject.asObservable();  
 
   constructor(private http: HttpClient) { }
 
@@ -55,10 +51,6 @@ export class LoginService {
     };
   } 
   
-  //notifica a ocorrência do login
-  notificarLogin(): void {
-    this.loginSubject.next();
-  }  
 }
 
 
