@@ -3,7 +3,7 @@
 
     <form [formGroup]="formGroupItem" (ngSubmit)="adicionarItem()">
         <div class="row">
-            <div class="col-md-6 mb-3">                
+            <div class="col-md-6 mb-3">
                 <label for="produto" class="form-label">Produtos</label>
                 <select class="form-select" aria-label="Default select example" formControlName="produto">
                     <option [ngValue]="null" disabled selected>Selecione um produto</option>
@@ -50,6 +50,9 @@
             </tr>
         </tbody>
     </table>
+    <div *ngIf="mensagemDados" class="alert alert-info text-center">
+        Aguarde, carregando dados...
+    </div>
 
     <form [formGroup]="formGroupPedido" (ngSubmit)="salvarPedido()">
         <div class="row">

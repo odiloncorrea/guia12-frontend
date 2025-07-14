@@ -25,10 +25,14 @@ export class MenuComponent {
   nivelUsuario!: string;
   nomeUsuario!: string;
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(private loginService: LoginService, private router: Router) { 
+      this.nivelUsuario = '';
+      this.nomeUsuario = '';
+      this.menuUsuario = [];
+  }
 
-  ngOnInit(): void {
-    // Faz a inscrição para atualizar o menu sempre que a rota mudar
+  ngOnInit(): void {    
+    // Faz a inscrição para observar os eventos do objeto router e atualiza o menu somente após a conclusão da navegação (NavigationEnd)
     this.subscription = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.atualizarMenu();

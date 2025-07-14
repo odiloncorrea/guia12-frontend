@@ -16,6 +16,7 @@ export class TipoComponent {
   objeto!: Tipo;
   modalAberto = false;
   formGroup: FormGroup;
+  mensagemDados = false;
 
   constructor(private service: TipoService, private formBuilder: FormBuilder) {
     this.formGroup = this.formBuilder.group({
@@ -29,12 +30,16 @@ export class TipoComponent {
   }
 
   carregarLista(): void {
+    this.mensagemDados = true;
     this.service.listar().subscribe({
       next: (retornoJson) => {
         this.lista = retornoJson;
       },
       error: () => {
         alert('Erro ao carregar a lista.');
+      },
+      complete: () => {
+        this.mensagemDados = false;
       }
     });
   }

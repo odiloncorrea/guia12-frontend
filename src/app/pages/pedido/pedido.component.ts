@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PedidoService } from '../../services/pedido.service';
 import { Pedido } from '../../models/pedido';
-import { Router, RouterModule} from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pedido',
@@ -13,14 +13,15 @@ import { Router, RouterModule} from '@angular/router';
 })
 
 export class PedidoComponent {
- lista: Pedido[] = [];
-  
-    constructor(private service: PedidoService, private router: Router) {
-    }
-  
-    ngOnInit(): void {
-      this.carregarLista();
-    }
+  lista: Pedido[] = [];
+  mensagemDados = false;
+
+  constructor(private service: PedidoService, private router: Router) {
+  }
+
+  ngOnInit(): void {
+    this.carregarLista();
+  }
 
   excluir(id: number): void {
     if (confirm('Tem certeza que deseja excluir o registro?')) {
@@ -33,16 +34,20 @@ export class PedidoComponent {
         }
       });
     }
-  }    
-  
-    carregarLista(): void {
-      this.service.listar().subscribe({
-        next: (retornoJson) => {
-          this.lista = retornoJson;
-        },
-        error: () => {
-          alert('Erro ao carregar a lista.');
-        }
-      });
-    }
+  }
+
+  carregarLista(): void {
+    this.mensagemDados = true;
+    this.service.listar().subscribe({
+      next: (retornoJson) => {
+        this.lista = retornoJson;
+      },
+      error: () => {
+        alert('Erro ao carregar a lista.');
+      },
+      complete: () => {
+        this.mensagemDados = false;
+      }
+    });
+  }
 }

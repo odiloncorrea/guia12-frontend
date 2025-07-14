@@ -29,6 +29,7 @@ export class AddPedidoComponent {
   itensRemovidos: Item[] = [];
   usuarios: Usuario[] = [];
   pedido: Pedido;
+  mensagemDados = false;
 
 
   constructor(private formBuilder: FormBuilder, private produtoService: ProdutoService, private route: ActivatedRoute, private router: Router, private pedidoService: PedidoService, private usuarioService: UsuarioService, private itemService: ItemService) {
@@ -51,8 +52,8 @@ export class AddPedidoComponent {
   }
 
   ngOnInit(): void {
-    this.carregarProdutos();
     this.carregarUsuarios();
+    this.carregarProdutos();    
 
     const id = this.route.snapshot.params['id'];
     if (id) {
@@ -94,23 +95,31 @@ export class AddPedidoComponent {
   }
 
   carregarUsuarios(): void {
+    this.mensagemDados = true;
     this.usuarioService.listar().subscribe({
       next: (usuarios) => {
         this.usuarios = usuarios;
       },
       error: () => {
         alert('Erro ao carregar a lista de usuários.');
+      },
+      complete: () => {
+        this.mensagemDados = false;
       }
     });
   }
 
   carregarProdutos(): void {
+    this.mensagemDados = true;
     this.produtoService.listar().subscribe({
       next: (produtos) => {
         this.produtos = produtos;
       },
       error: () => {
         alert('Erro ao carregar a lista de produtos.');
+      },
+      complete: () => {
+        this.mensagemDados = false;
       }
     });
   }

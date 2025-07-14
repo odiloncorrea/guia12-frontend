@@ -1,4 +1,4 @@
-<div class="container mt-4">  
+<div class="container mt-4">
   <h2 class="mb-4 border-bottom border-3 border-danger">Usuários</h2>
 
   <div class="d-flex justify-content-end mb-2">
@@ -23,4 +23,8 @@
       </tr>
     </tbody>
   </table>
+
+  <div *ngIf="mensagemDados" class="alert alert-info text-center">
+    Aguarde, carregando dados...
+  </div>
 </div>

@@ -14,6 +14,7 @@ import { Router, RouterModule} from '@angular/router';
 
 export class ProdutoComponent {
   lista: Produto[] = [];
+  mensagemDados = false;
 
   constructor(private service: ProdutoService, private router: Router) {
   }
@@ -23,12 +24,16 @@ export class ProdutoComponent {
   }
 
   carregarLista(): void {
+    this.mensagemDados = true;
     this.service.listar().subscribe({
       next: (retornoJson) => {
         this.lista = retornoJson;
       },
       error: () => {
         alert('Erro ao carregar a lista.');
+      },
+      complete: () => {
+        this.mensagemDados = false;
       }
     });
   }
